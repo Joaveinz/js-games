@@ -52,6 +52,8 @@ const spawnEnemy = () => {
 };
 
 const getAccel = () => {
+    state = 'GETTING PERMISSIONS..';
+
     if (
         typeof DeviceMotionEvent !== 'undefined' &&
         typeof DeviceMotionEvent.requestPermission === 'function'
@@ -64,8 +66,10 @@ const getAccel = () => {
                         'deviceorientation',
                         handleRotation
                     );
-                    state = 'GRANTED';
+                    state = 'PERMISSION GRANTED';
                 } else {
+                    state = 'PERMISSION DENIED';
+
                     // Permission denied
                 }
             })
@@ -73,7 +77,7 @@ const getAccel = () => {
     } else {
         // other devices
         window.addEventListener('deviceorientation', handleRotation);
-        state = 'GRANTING NOT NEEDED';
+        state = 'PERMISSION NOT NEEDED';
     }
 };
 
