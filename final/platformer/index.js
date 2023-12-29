@@ -20,20 +20,8 @@ let player = {
 let shooting = false;
 let direction = 'north'; // "north" | "east" | "south" | "west"
 let accelerometer = { x: 0, y: 0, z: 0 };
-// navigator.permissions.query({ name: 'accelerometer' }).then((result) => {
-//     console.log(result.state);
-//     if (result.state === 'granted') {
-//         accelerometer = new Accelerometer({ frequency: 60 });
-//         accelerometer.addEventListener('reading', () => {
-//             console.log(`Acceleration along the X-axis ${accelerometer.x}`);
-//             console.log(`Acceleration along the Y-axis ${accelerometer.y}`);
-//             console.log(`Acceleration along the Z-axis ${accelerometer.z}`);
-//         });
-//         accelerometer.start();
-//         // alert('acl granted!');
-//     }
-//     // Don't do anything if the permission was denied.
-// }, console.log);
+
+let state = 'NOT GRANTED';
 
 // BULLETS
 let bullets = [];
@@ -66,6 +54,8 @@ const spawnEnemy = () => {
 const getAccel = () => {
     DeviceMotionEvent.requestPermission()
         .then((response) => {
+            state = 'GRANTED';
+
             if (response === 'granted') {
                 accelerometer = new Accelerometer({ frequency: 60 });
                 accelerometer.addEventListener('reading', () => {
@@ -80,8 +70,6 @@ const getAccel = () => {
                     );
                 });
                 accelerometer.start();
-                // alert('acl granted!');            } else {
-                // Permission denied
             }
         })
         .catch(console.error);
@@ -91,8 +79,6 @@ const getAccel = () => {
 let lastTime = 0;
 window.requestAnimationFrame(gameLoop);
 function gameLoop(time) {
-    // console.log(`Acceleration along the X-axis ${acl.x}`);
-
     let delta = time - lastTime; // Time since last frame
     lastTime = time;
 
@@ -119,7 +105,6 @@ function gameLoop(time) {
                 break;
             case 'east':
                 bulletX += 5;
-
                 break;
             case 'south':
                 break;
@@ -157,6 +142,7 @@ function gameLoop(time) {
         canvas.width / 2,
         canvas.height / 2
     );
+    ctx.fillText(state, canvas.width / 2, canvas.height / 2 + 100);
     window.requestAnimationFrame(gameLoop);
 }
 
