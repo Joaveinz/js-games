@@ -82,7 +82,7 @@ function gameLoop(time) {
     //     player.y += 0.5 * delta;
     // }
 
-    // player.x += acl.x;
+    player.x += accelerometer.x;
 
     // BULLET LOGIC
     for (let bullet of bullets) {
