@@ -30,7 +30,7 @@ navigator.permissions.query({ name: 'accelerometer' }).then((result) => {
             console.log(`Acceleration along the Z-axis ${accelerometer.z}`);
         });
         accelerometer.start();
-        alert('acl granted!');
+        // alert('acl granted!');
     }
     // Don't do anything if the permission was denied.
 }, console.log);
@@ -83,7 +83,7 @@ function gameLoop(time) {
     //     player.y += 0.5 * delta;
     // }
 
-    player.x += accelerometer.x;
+    // player.x += accelerometer.x;
 
     // BULLET LOGIC
     for (let bullet of bullets) {
@@ -124,6 +124,15 @@ function gameLoop(time) {
 
     // DRAWING
     draw();
+
+    ctx.fillStyle = 'white';
+    ctx.font = '48px sans-serif';
+
+    ctx.fillText(
+        JSON.stringify(accelerometer),
+        canvas.width / 2,
+        canvas.height / 2
+    );
     window.requestAnimationFrame(gameLoop);
 }
 
