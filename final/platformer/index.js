@@ -69,14 +69,16 @@ const getAccel = () => {
                     state = 'PERMISSION GRANTED';
                 } else {
                     state = 'PERMISSION DENIED';
-
                     // Permission denied
                 }
             })
             .catch(console.error);
     } else {
         // other devices
-        window.addEventListener('deviceorientation', handleRotation);
+        // window.addEventListener('deviceorientation', handleRotation);
+        document.addEventListener('deviceorientation', (event) => {
+            // Do stuff
+        });
         state = 'PERMISSION NOT NEEDED';
     }
 };
