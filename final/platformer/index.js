@@ -30,6 +30,7 @@ navigator.permissions.query({ name: 'accelerometer' }).then((result) => {
             console.log(`Acceleration along the Z-axis ${accelerometer.z}`);
         });
         accelerometer.start();
+        alert('acl granted!');
     }
     // Don't do anything if the permission was denied.
 }, console.log);
