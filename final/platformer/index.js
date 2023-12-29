@@ -52,27 +52,29 @@ const spawnEnemy = () => {
 };
 
 const getAccel = () => {
-    DeviceMotionEvent.requestPermission()
-        .then((response) => {
-            state = 'GRANTED';
-
-            if (response === 'granted') {
-                accelerometer = new Accelerometer({ frequency: 60 });
-                accelerometer.addEventListener('reading', () => {
-                    console.log(
-                        `Acceleration along the X-axis ${accelerometer.x}`
+    if (
+        typeof DeviceMotionEvent !== 'undefined' &&
+        typeof DeviceMotionEvent.requestPermission === 'function'
+    ) {
+        DeviceMotionEvent.requestPermission()
+            .then((response) => {
+                if (response === 'granted') {
+                    // Permission granted
+                    window.addEventListener(
+                        'deviceorientation',
+                        handleRotation
                     );
-                    console.log(
-                        `Acceleration along the Y-axis ${accelerometer.y}`
-                    );
-                    console.log(
-                        `Acceleration along the Z-axis ${accelerometer.z}`
-                    );
-                });
-                accelerometer.start();
-            }
-        })
-        .catch(console.error);
+                    state = 'GRANTED';
+                } else {
+                    // Permission denied
+                }
+            })
+            .catch(console.error);
+    } else {
+        // other devices
+        window.addEventListener('deviceorientation', handleRotation);
+        state = 'GRANTING NOT NEEDED';
+    }
 };
 
 // GAME LOOP
